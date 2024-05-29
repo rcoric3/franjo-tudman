@@ -14,7 +14,9 @@ const App = () => {
   const [popupText, setPopupText] = useState("");
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [playMusic, setPlayMusic] = useState(false);
+  const [count, setCount] = useState(0);
   const audioRef = useRef(null);
+  const audioRef2 = useRef(null);
 
   const sentences = [
     "Hrvatska će biti nezavisna država.",
@@ -42,6 +44,11 @@ const App = () => {
     } else {
       audioRef.current.pause();
     }
+  };
+
+  const handleCountAndPlaySound = () => {
+    setCount(count + 1);
+    audioRef2.current.play();
   };
 
   useEffect(() => {
@@ -148,8 +155,34 @@ const App = () => {
         {playMusic ? "Stop Music" : "Play Music"}
       </Button>
       <audio ref={audioRef} src="/sound.mp3" loop />
+      <audio ref={audioRef2} src="/sound2.mp3" />
+      <Box
+        sx={{
+          marginTop: "20px",
+        }}
+      >
+        <Button
+          onClick={handleCountAndPlaySound}
+          sx={{
+            padding: "10px 20px",
+            backgroundColor: "#fff",
+            color: "#000",
+            fontWeight: "bold",
+            "@media (max-width: 768px)": {
+              padding: "8px 16px",
+              fontSize: "0.9em",
+            },
+            "@media (max-width: 480px)": {
+              padding: "6px 12px",
+              fontSize: "0.8em",
+            },
+          }}
+        >
+          NWord Counter: {count}
+        </Button>
+      </Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Franjo Tuđman Zitate</DialogTitle>
+        <DialogTitle>Mamu ti jebem</DialogTitle>
         <DialogContent>
           <DialogContentText>{popupText}</DialogContentText>
         </DialogContent>
