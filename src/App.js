@@ -17,6 +17,7 @@ const App = () => {
   const [count, setCount] = useState(0);
   const audioRef = useRef(null);
   const audioRef2 = useRef(null);
+  const audioRef3 = useRef(null);
 
   const sentences = [
     "Hrvatska će biti nezavisna država.",
@@ -49,6 +50,10 @@ const App = () => {
   const handleCountAndPlaySound = () => {
     setCount(count + 1);
     audioRef2.current.play();
+  };
+
+  const handleGreetPlaySound = () => {
+    audioRef3.current.play();
   };
 
   useEffect(() => {
@@ -156,6 +161,7 @@ const App = () => {
       </Button>
       <audio ref={audioRef} src="/sound.mp3" loop />
       <audio ref={audioRef2} src="/sound2.mp3" />
+      <audio ref={audioRef3} src="/sound3.mp3" />
       <Box
         sx={{
           marginTop: "20px",
@@ -179,6 +185,31 @@ const App = () => {
           }}
         >
           NWord Counter: {count}
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          marginTop: "20px",
+        }}
+      >
+        <Button
+          onClick={handleGreetPlaySound}
+          sx={{
+            padding: "10px 20px",
+            backgroundColor: "#fff",
+            color: "#000",
+            fontWeight: "bold",
+            "@media (max-width: 768px)": {
+              padding: "8px 16px",
+              fontSize: "0.9em",
+            },
+            "@media (max-width: 480px)": {
+              padding: "6px 12px",
+              fontSize: "0.8em",
+            },
+          }}
+        >
+          Greetings from Fuerer
         </Button>
       </Box>
       <Dialog open={open} onClose={handleClose}>
