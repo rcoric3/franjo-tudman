@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -8,20 +8,20 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import YouTube from "react-youtube";
 
 const App = () => {
   const [open, setOpen] = useState(false);
   const [popupText, setPopupText] = useState("");
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [playMusic, setPlayMusic] = useState(false);
+  const audioRef = useRef(null);
 
   const sentences = [
-    "Da Srbi NESTANU",
-    "Jebo vam srpsku majku",
-    "Ako Bog da Srbija će biti naša jebo majku",
-    "Jebene četnike",
-    "Za dom spremni",
+    "Hrvatska će biti nezavisna država.",
+    "Srbi će biti manjina u Hrvatskoj.",
+    "Ne možemo dopustiti da Srbija dominira nad nama.",
+    "Hrvatski narod će se oduprijeti agresiji.",
+    "Hrvatska će se braniti svim sredstvima.",
   ];
 
   const handleClick = () => {
@@ -37,7 +37,18 @@ const App = () => {
   };
   const handleMusicToggle = () => {
     setPlayMusic(!playMusic);
+    if (!playMusic) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
   };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+    }
+  }, []);
 
   // Funktion für die Sprachausgabe
   const speakText = (text) => {
@@ -49,13 +60,6 @@ const App = () => {
     speechSynthesis.speak(utterance);
   };
 
-  const videoOptions = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
   return (
     <Box
       sx={{
@@ -67,11 +71,9 @@ const App = () => {
         color: "#fff",
         padding: "20px",
         "@media (max-width: 768px)": {
-          // Styles für iPad und kleinere Geräte
           marginTop: "20px",
         },
         "@media (max-width: 480px)": {
-          // Styles für iPhone und kleinere Geräte
           marginTop: "10px",
           padding: "10px",
         },
@@ -95,11 +97,9 @@ const App = () => {
         style={{
           fontSize: "2em",
           "@media (max-width: 768px)": {
-            // Styles für iPad und kleinere Geräte
             fontSize: "1.5em",
           },
           "@media (max-width: 480px)": {
-            // Styles für iPhone und kleinere Geräte
             fontSize: "1.2em",
           },
         }}
@@ -119,11 +119,9 @@ const App = () => {
           marginLeft: "auto",
           marginRight: "auto",
           "@media (max-width: 768px)": {
-            // Styles für iPad und kleinere Geräte
             width: "200px",
           },
           "@media (max-width: 480px)": {
-            // Styles für iPhone und kleinere Geräte
             width: "150px",
           },
         }}
@@ -138,12 +136,10 @@ const App = () => {
           color: "#000",
           fontWeight: "bold",
           "@media (max-width: 768px)": {
-            // Styles für iPad und kleinere Geräte
             padding: "8px 16px",
             fontSize: "0.9em",
           },
           "@media (max-width: 480px)": {
-            // Styles für iPhone und kleinere Geräte
             padding: "6px 12px",
             fontSize: "0.8em",
           },
@@ -151,27 +147,9 @@ const App = () => {
       >
         {playMusic ? "Stop Music" : "Play Music"}
       </Button>
-      {playMusic && (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            "@media (max-width: 768px)": {
-              // Styles für iPad und kleinere Geräte
-              width: "90%",
-            },
-            "@media (max-width: 480px)": {
-              // Styles für iPhone und kleinere Geräte
-              width: "80%",
-            },
-          }}
-        >
-          <YouTube videoId="au-DC7l8Hb8" opts={videoOptions} />
-        </Box>
-      )}
+      <audio ref={audioRef} src="/sound.mp3" loop />
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Jebo Mamu</DialogTitle>
+        <DialogTitle>Franjo Tuđman Zitate</DialogTitle>
         <DialogContent>
           <DialogContentText>{popupText}</DialogContentText>
         </DialogContent>
