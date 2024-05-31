@@ -1,7 +1,7 @@
 import React from "react";
 import Croatia from "./Croatia";
 import Albania from "./Albania";
-import { Route, wouter } from "wouter";
+import { Route } from "wouter";
 import "./css/global.css";
 
 const App = () => {
