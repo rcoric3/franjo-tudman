@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/madeume.css";
 import Logo from "./img/MDU_Rot.png";
 import Confetti from "react-confetti";
@@ -57,18 +57,29 @@ function Madeume() {
     speechSynthesis.speak(utterance);
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      const loadVoices = () => {
+        const availableVoices = window.speechSynthesis.getVoices();
+        setVoices(availableVoices);
+      };
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+    }
+  }, []);
+
   return (
     <div className="madeume-container">
-        <div className="madeume-header">
-            <button className="madeume-button" onClick={handleUmeClick}>
-            <h1 style={{ display: showButton ? "block" : "none" }}>Madeume</h1>
-            <img
-                src={Logo}
-                alt="Madeume Button"
-                style={{ display: showButton ? "block" : "none" }}
-            />
-            </button>
-        </div>
+      <div className="madeume-header">
+        <button className="madeume-button" onClick={handleUmeClick}>
+          <h1 style={{ display: showButton ? "block" : "none" }}>Madeume</h1>
+          <img
+            src={Logo}
+            alt="Madeume Button"
+            style={{ display: showButton ? "block" : "none" }}
+          />
+        </button>
+      </div>
       {showConfetti && <Confetti />}
       {showButton && !showConfetti && (
         <button className="drückenn-button" onClick={handleDrück}>
@@ -76,9 +87,7 @@ function Madeume() {
         </button>
       )}
       {showText && (
-        <div className="moment-text">
-          Hesh din Moment jetzt kah!
-        </div>
+        <div className="moment-text">Hesh din Moment jetzt kah!</div>
       )}
 
       <Dialog open={open} onClose={handleClose}>
